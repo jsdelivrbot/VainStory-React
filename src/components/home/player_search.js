@@ -17,7 +17,16 @@ class PlayerSearch extends Component {
       .focus() 
   }
 
+  onSubmit(values) {
+    this.props.fetchPlayer(values, () => {
+      
+      this.props.history.push('/');
+    });
+  }
+
   render() {
+    const { handleSubmit } = this.props;
+
     const containerStyle = {
       width: '360px',
       margin: 'auto',
@@ -36,9 +45,9 @@ class PlayerSearch extends Component {
         <div>
           베인글로리 플레이어
         </div>
-        <form>
+        <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
           <Field 
-            name="사용자명"
+            name="userName"
             hintText="사용자명"
             floatingLabelText="사용자명"
             component={TextField}
@@ -47,23 +56,23 @@ class PlayerSearch extends Component {
             ref='username' withRef />
           <br />
           <Field
-            name="지역"
+            name="region"
             label="지역"
             floatingLabelText="지역 선택"
             component={SelectField}
             fullWidth={true}
             floatingLabelFixed={true}>
               <MenuItem value={null} primaryText="" />
-              <MenuItem value="SG" primaryText="동남아시아" />
-              <MenuItem value="EA" primaryText="동아시아" />
-              <MenuItem value="NA" primaryText="북아메리카" />
-              <MenuItem value="SA" primaryText="남아메리카" />
-              <MenuItem value="EU" primaryText="유럽" />
-              <MenuItem value="CN" primaryText="중국" />
+              <MenuItem value="sg" primaryText="동남아시아" />
+              <MenuItem value="ea" primaryText="동아시아" />
+              <MenuItem value="na" primaryText="북아메리카" />
+              <MenuItem value="sa" primaryText="남아메리카" />
+              <MenuItem value="eu" primaryText="유럽" />
+              <MenuItem value="cn" primaryText="중국" />
           </Field>
           <br />
           <br />
-          <RaisedButton label="찾아보기" primary={true} style={buttonStyle} />
+          <RaisedButton type="submit" label="찾아보기" primary={true} style={buttonStyle} />
         </form>
       </Card>
     );
