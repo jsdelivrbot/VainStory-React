@@ -11,22 +11,22 @@ import { SelectField, TextField } from 'redux-form-material-ui'
 
 class PlayerSearch extends Component {
   componentDidMount() {
-    this.refs.username        // the Field
+    this.refs.userName        // the Field
       .getRenderedComponent() // on Field, returns ReduxFormMaterialUITextField
       .getRenderedComponent() // on ReduxFormMaterialUITextField, returns TextField
       .focus() 
   }
 
   onSubmit(values) {
-    this.props.fetchPlayer(values, () => {
-      
-      this.props.history.push('/');
+    this.props.fetchPlayer(values, (error) => {
+      if(!error) {
+        this.props.history.push(``);
+      } 
     });
   }
 
   render() {
     const { handleSubmit } = this.props;
-
     const containerStyle = {
       width: '360px',
       margin: 'auto',
@@ -46,14 +46,15 @@ class PlayerSearch extends Component {
           베인글로리 플레이어
         </div>
         <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
-          <Field 
+          <Field
             name="userName"
             hintText="사용자명"
             floatingLabelText="사용자명"
             component={TextField}
             fullWidth={true}
             floatingLabelFixed={true}
-            ref='username' withRef />
+            errorText={(self) => {self.touched && self.error}}
+            ref='userName' withRef />
           <br />
           <Field
             name="region"
@@ -61,8 +62,10 @@ class PlayerSearch extends Component {
             floatingLabelText="지역 선택"
             component={SelectField}
             fullWidth={true}
-            floatingLabelFixed={true}>
-              <MenuItem value={null} primaryText="" />
+            floatingLabelFixed={true}
+            errorText={(self) => {self.touched && self.error ? self.error : ''}}
+            ref='region' withRef >
+              <MenuItem value={null} primaryText="지역 선택" />
               <MenuItem value="sg" primaryText="동남아시아" />
               <MenuItem value="ea" primaryText="동아시아" />
               <MenuItem value="na" primaryText="북아메리카" />
@@ -82,16 +85,20 @@ class PlayerSearch extends Component {
 function validate(values) { 
   const errors = {};
 
-  if (!values.name) {
-    errors.name = "Enter a title!";
+  if (!values.userName) {
+    errors.userName = "No UserName!";
+  }
+
+  if (!values.region) {
+    errors.region = "No Region Selected";
   }
 
   return errors;
 }
 
 export default reduxForm({
-  validate,
-  form: 'PlayerSearchForm'
+  form: 'PlayerSearchForm',
+  validate
 })(
   connect(null, { fetchPlayer })(PlayerSearch)
 );

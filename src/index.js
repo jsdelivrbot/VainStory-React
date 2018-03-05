@@ -21,7 +21,7 @@ ReactDOM.render(
       <BrowserRouter>
         <div>
           <Switch>
-            <Route path="/player/:name" component={Player} />
+            <Route path="/player/:region/:name" component={Player} />
             <Route path="/" component={Home} />
           </Switch>
         </div>
