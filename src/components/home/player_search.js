@@ -1,32 +1,22 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchPlayer } from '../../actions';
+import { renderTextField, renderSelectField } from '../common/renderers';
 
 import MenuItem from 'material-ui/MenuItem'
 import RaisedButton from 'material-ui/RaisedButton';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import { SelectField, TextField } from 'redux-form-material-ui'
 
 class PlayerSearch extends Component {
-  componentDidMount() {
-    this.refs.userName        // the Field
-      .getRenderedComponent() // on Field, returns ReduxFormMaterialUITextField
-      .getRenderedComponent() // on ReduxFormMaterialUITextField, returns TextField
-      .focus() 
-  }
-
   onSubmit(values) {
-    this.props.fetchPlayer(values, (error) => {
-      if(!error) {
-        this.props.history.push(``);
-      } 
-    });
+    const { region, userName } = values;
+    this.props.history.push(`/player/${region}/${userName}`);
   }
 
   render() {
     const { handleSubmit } = this.props;
+
     const containerStyle = {
       width: '360px',
       margin: 'auto',
@@ -48,23 +38,17 @@ class PlayerSearch extends Component {
         <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
           <Field
             name="userName"
-            hintText="사용자명"
-            floatingLabelText="사용자명"
-            component={TextField}
+            label="사용자명"
+            component={renderTextField}
             fullWidth={true}
-            floatingLabelFixed={true}
-            errorText={(self) => {self.touched && self.error}}
-            ref='userName' withRef />
+            floatingLabelFixed={true} />
           <br />
           <Field
             name="region"
             label="지역"
-            floatingLabelText="지역 선택"
-            component={SelectField}
+            component={renderSelectField}
             fullWidth={true}
-            floatingLabelFixed={true}
-            errorText={(self) => {self.touched && self.error ? self.error : ''}}
-            ref='region' withRef >
+            floatingLabelFixed={true}>
               <MenuItem value={null} primaryText="지역 선택" />
               <MenuItem value="sg" primaryText="동남아시아" />
               <MenuItem value="ea" primaryText="동아시아" />
@@ -100,5 +84,5 @@ export default reduxForm({
   form: 'PlayerSearchForm',
   validate
 })(
-  connect(null, { fetchPlayer })(PlayerSearch)
+  withRouter((PlayerSearch))
 );
