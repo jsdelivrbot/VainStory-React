@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import PlayerSearch from '../components/home/player_search';
-
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-
-
 import Header from '../components/common/header';
+
+import FlatButton from 'material-ui/FlatButton';
 
 class Home extends Component {
   onTitleClick() {
@@ -12,17 +10,20 @@ class Home extends Component {
   }
 
   render() {
-    
+    const styles = {
+      margin: 'auto',
+    };
 
     return (
-        <div>
-          <Header />
-          <div className="jumbotron jumbotron-fluid text-xs-center">
-            <h1 className="jumbotron-heading">Vain Story</h1>
-            <p className="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
-            <PlayerSearch />
-          </div>
+      <div>
+        <Header />
+        <div className="jumbotron jumbotron-fluid" id="home">
+          <h1 className="jumbotron-heading" id="title-white">플레이어 전적을 찾아보세요</h1>
+          <p className="lead text-muted" id="title-gray">적어도 2018년 2월 20일 이후로 한 게임 이상 진행하여야 합니다.</p>
+          <br />
+          <PlayerSearch />
         </div>
+      </div>
     );
   }
 }

@@ -7,6 +7,10 @@ import FlatButton from 'material-ui/FlatButton';
 
 class Header extends Component {
   render() {
+    const barStyle = {
+      background: '#434345'
+    };
+
     const styles = {
       title: { cursor: 'pointer' }
     };
@@ -14,6 +18,7 @@ class Header extends Component {
     return (
       <div>
         <AppBar
+          style={barStyle}
           title={<span style={styles.title}>VainStory</span>}
           onTitleClick={this.onTitleClick}
           iconElementLeft={<IconButton></IconButton>}
