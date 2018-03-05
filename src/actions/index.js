@@ -30,9 +30,7 @@ export function fetchPlayer(values, callback) {
     timeout: 3600,
     headers: { 'Authorization': API_KEY, 'Accept': 'application/vnd.api+json'}
   })
-  .get(`/${values.region}/players?filter[playerNames]=${values.userName}`)
-  .then(() => callback())
-  .catch(handleError);
+  .get(`/${values.region}/players?filter[playerNames]=${values.userName}`);
 
   return {
     type: FETCH_PLAYER,

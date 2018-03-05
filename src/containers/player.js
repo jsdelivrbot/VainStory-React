@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
 import Header from '../components/common/header';
+import { connect } from 'react-redux';
+import { fetchPlayer } from '../actions';
 
 class Player extends Component {
   componentDidMount() {
-    const { region, userName } = this.props.match.params;
+    //const { region, userName } = this.props.match.params;
+    const { fetchPlayer, match: { params } } = this.props;
+    fetchPlayer(params, () => {
+      
+    });
   }
 
   render() {
@@ -16,4 +22,5 @@ class Player extends Component {
   }
 }
 
-export default Player;
+// export default Player;
+export default connect(null, { fetchPlayer })(Player);

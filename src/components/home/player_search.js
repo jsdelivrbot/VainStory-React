@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { Link, withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { renderTextField, renderSelectField } from '../common/renderers';
 
 import MenuItem from 'material-ui/MenuItem'
