@@ -1,0 +1,21 @@
+#home {
+  background: #313133;
+  height: 100vmax;
+}
+
+#title-white {
+  text-align: center;
+  color: azure;
+}
+
+#title-gray {
+  text-align: center;
+  color: darkgray;
+}
+
+#search_area {
+  background: azure;
+  border-radius: 4px;
+  width: 396px;
+  margin: auto;
+}

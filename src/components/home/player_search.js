@@ -1,56 +1,66 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { fetchPlayer } from '../../actions';
+import { withRouter } from 'react-router-dom';
+import { renderTextField, renderSelectField } from '../common/renderers';
 
-import TextField from 'material-ui/TextField'
-import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
+import RaisedButton from 'material-ui/RaisedButton';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
 class PlayerSearch extends Component {
-  renderTextField(field) {
-    const { input, label, meta: { touched, error }, ...custom } = field;
-    return (
-      <TextField
-        hintText={label}
-        floatingLabelText={label}
-        errorText={touched && error}
-        {...input}
-        {...custom}
-      />
-    );
-  }
-
-  renderSelectField(field) {
-    const { input, label, meta: { touched, error }, children, ...custom } = field;
-    return (
-      <SelectField
-        floatingLabelText={label}
-        errorText={touched && error}
-        {...input}
-        onChange={(event, index, value) => input.onChange(value)}
-        children={children}
-        {...custom}
-      />
-    );
+  onSubmit(values) {
+    const { region, userName } = values;
+    this.props.history.push(`/player/${region}/${userName}`);
   }
 
   render() {
+    const { handleSubmit } = this.props;
+
+    const containerStyle = {
+      width: '360px',
+      margin: 'auto',
+      textAlignment: 'left'
+    };
+
+    const buttonStyle = {
+      width: '360px',
+      margin: 'auto',
+      marginBottom: '16px'
+    };
+
     return (
-      <form>
+      <Card id="search_area" containerStyle={containerStyle}>
+        <br />
         <div>
-          <Field name="player" component={this.renderTextField} label="플레이어 명" />
-          <Field
-            name="favoriteColor"
-            component={this.renderSelectField}
-            label="Favorite Color">
-            <MenuItem value="ff0000" primaryText="Red" />
-            <MenuItem value="00ff00" primaryText="Green" />
-            <MenuItem value="0000ff" primaryText="Blue" />
-          </Field>
+          베인글로리 플레이어
         </div>
-      </form>
+        <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+          <Field
+            name="userName"
+            label="사용자명"
+            component={renderTextField}
+            fullWidth={true}
+            floatingLabelFixed={true} />
+          <br />
+          <Field
+            name="region"
+            label="지역"
+            component={renderSelectField}
+            fullWidth={true}
+            floatingLabelFixed={true}>
+              <MenuItem value={null} primaryText="지역 선택" />
+              <MenuItem value="sg" primaryText="동남아시아" />
+              <MenuItem value="ea" primaryText="동아시아" />
+              <MenuItem value="na" primaryText="북아메리카" />
+              <MenuItem value="sa" primaryText="남아메리카" />
+              <MenuItem value="eu" primaryText="유럽" />
+              <MenuItem value="cn" primaryText="중국" />
+          </Field>
+          <br />
+          <br />
+          <RaisedButton type="submit" label="찾아보기" primary={true} style={buttonStyle} />
+        </form>
+      </Card>
     );
   }
 }
@@ -58,16 +68,20 @@ class PlayerSearch extends Component {
 function validate(values) { 
   const errors = {};
 
-  if (!values.name) {
-    errors.name = "Enter a title!";
+  if (!values.userName) {
+    errors.userName = "No UserName!";
+  }
+
+  if (!values.region) {
+    errors.region = "No Region Selected";
   }
 
   return errors;
 }
 
 export default reduxForm({
-  validate,
-  form: 'PlayerSearchForm'
+  form: 'PlayerSearchForm',
+  validate
 })(
-  connect(null, { fetchPlayer })(PlayerSearch)
+  withRouter((PlayerSearch))
 );
