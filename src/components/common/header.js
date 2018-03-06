@@ -15,6 +15,10 @@ class Header extends Component {
       title: { cursor: 'pointer' }
     };
 
+    const buttonStyle = {
+      color: '#EEEEEE'
+    };
+
     return (
       <div>
         <AppBar
@@ -24,10 +28,10 @@ class Header extends Component {
           iconElementLeft={<IconButton></IconButton>}
           iconElementRight={
             <div>
-              <FlatButton label="챔피언 분석" />
-              <FlatButton label="통계" />
-              <FlatButton label="랭킹" />
-              <FlatButton label="기타" />
+              <FlatButton style={buttonStyle} label="챔피언 분석" />
+              <FlatButton style={buttonStyle} label="통계" />
+              <FlatButton style={buttonStyle} label="랭킹" />
+              <FlatButton style={buttonStyle} label="기타" />
             </div> 
           }
         />

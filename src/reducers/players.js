@@ -2,7 +2,6 @@ import _ from 'lodash';
 import { FETCH_PLAYER } from '../actions';
 
 export default function(state = {}, action) {
-  console.log(action);
   switch (action.type) {
     case FETCH_PLAYER:
       console.log(action.payload);
