@@ -1,15 +1,21 @@
-import React, {Component} from 'react';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { fetchPlayer } from '../../actions';
+
+import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import {List, ListItem} from 'material-ui/List';
+import { List, ListItem } from 'material-ui/List';
 import ContentInbox from 'material-ui/svg-icons/content/inbox';
 import ActionGrade from 'material-ui/svg-icons/action/grade';
 import ContentSend from 'material-ui/svg-icons/content/send';
 
 class BasicInfo extends Component {
   componentWillMount() {
-
+    const { fetchPlayer, userInfo } = this.props;
+    fetchPlayer(userInfo, () => {
+      
+    });
   }
 
   render() {
@@ -34,4 +40,4 @@ class BasicInfo extends Component {
   }
 }
 
-export default BasicInfo;
+export default connect(null, { fetchPlayer })(BasicInfo);

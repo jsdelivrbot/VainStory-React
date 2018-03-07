@@ -1,11 +1,21 @@
 import _ from 'lodash';
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import { fetchMatches } from '../../actions';
+
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import {Tabs, Tab} from 'material-ui/Tabs';
 
 import MatchSummary from './match_summary';
 
 class MatchesInfo extends Component {
+  componentDidMount() {
+    const { fetchMatches, userInfo } = this.props;
+    fetchMatches(userInfo, () => {
+      
+    });
+  }
+
   render() {    
     const gameModes = _.map(['전체', '랭크', '일반(5 vs 5)', '일반(3 vs 3)', '총력전', '배틀로얄'], mode => {
       return (
@@ -44,4 +54,4 @@ class MatchesInfo extends Component {
   }
 }
 
-export default MatchesInfo;
+export default connect(null, {fetchMatches})(MatchesInfo);

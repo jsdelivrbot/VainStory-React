@@ -45,7 +45,7 @@ export function fetchMatches(values, callback) {
     timeout: 4500,
     headers: { 'Authorization': API_KEY, 'Accept': 'application/vnd.api+json'}
   })
-  .get(`/${values.region}/matches?sort=createdAt&page[limit]=3&filter[playerNames]=${values.userName}&filter[gameMode]=${values.gameMode}`);
+  .get(`/${values.region}/matches?sort=createdAt&page[limit]=1&filter[playerNames]=${values.userName}`);
 
   return {
     type: FETCH_MATCHES,

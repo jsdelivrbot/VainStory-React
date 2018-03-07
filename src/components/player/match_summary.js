@@ -140,7 +140,7 @@ class MatchSummary extends Component {
             <List>
               <ListItem
                 leftAvatar={<Avatar src="images/ok-128.jpg" />}
-                primaryText="Brunch this weekend?"
+                primaryText="정글"
                 secondaryText={
                   <p>
                     <span style={{color: darkBlack}}>Brendan Lim</span> --
