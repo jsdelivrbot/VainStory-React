@@ -4,8 +4,7 @@ import { fetchPlayer } from '../actions';
 
 import Header from '../components/common/header';
 import BasicInfo from '../components/player/basic_info';
-
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import MatchesInfo from '../components/player/matches_info';
 
 class Player extends Component {
   componentDidMount() {
@@ -23,6 +22,17 @@ class Player extends Component {
       width: '1120px'
     }
 
+    const tabStyle = {
+      headline: {
+        fontSize: 24,
+        paddingTop: 16,
+        marginBottom: 12,
+        fontWeight: 400,
+      },
+    };
+   
+    const { region, userName } = this.props.match.params;
+
     return (
       <div>
         <Header />
@@ -32,18 +42,7 @@ class Player extends Component {
               <BasicInfo />
             </div>
             <div className="col-xs-9">
-            <Card>
-              <CardTitle title="codeDestroyer" subtitle="Vainglorious Gold" />
-              
-
-
-                <CardText>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-                  Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-                  Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
-                </CardText>
-              </Card>
+              <MatchesInfo />
             </div>
           </div>
         </div>
