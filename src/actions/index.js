@@ -25,7 +25,7 @@ const handleError = (error) => {
   console.log(error.config);
 }
 
-export function fetchPlayer(values, callback) {
+export function fetchPlayer(values) {
   const request = axios.create({
     baseURL: ROOT_URL,
     timeout: 4500,

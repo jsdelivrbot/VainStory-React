@@ -12,13 +12,13 @@ import ContentSend from 'material-ui/svg-icons/content/send';
 
 class BasicInfo extends Component {
   componentWillMount() {
-    const { fetchPlayer, userInfo } = this.props;
-    fetchPlayer(userInfo, () => {
-      
-    });
+    const { fetchPlayer, params } = this.props;
+    fetchPlayer(params);
   }
 
   render() {
+    const { params, userInfo } = this.props;
+    console.log(userInfo);
     return (
       <Card>
         <CardMedia
@@ -40,4 +40,8 @@ class BasicInfo extends Component {
   }
 }
 
-export default connect(null, { fetchPlayer })(BasicInfo);
+function mapStateToProps(attributes, ownProps) {
+  return { userInfo: attributes.player[ownProps.params.userName] };
+}
+
+export default connect(mapStateToProps, { fetchPlayer })(BasicInfo);

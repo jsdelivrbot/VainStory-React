@@ -10,8 +10,8 @@ import MatchSummary from './match_summary';
 
 class MatchesInfo extends Component {
   componentDidMount() {
-    const { fetchMatches, userInfo } = this.props;
-    fetchMatches(userInfo, () => {
+    const { fetchMatches, params } = this.props;
+    fetchMatches(params, () => {
       
     });
   }

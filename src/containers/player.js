@@ -27,10 +27,10 @@ class Player extends Component {
         <div className="container-fluid" style={style}>
           <div className="row">
             <div className="col-xs-3">
-              <BasicInfo userInfo={this.props.match.params}/>
+              <BasicInfo params={this.props.match.params}/>
             </div>
             <div className="col-xs-9">
-              <MatchesInfo userInfo={this.props.match.params}/>
+              <MatchesInfo params={this.props.match.params}/>
             </div>
           </div>
         </div>
