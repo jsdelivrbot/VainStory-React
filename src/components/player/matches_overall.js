@@ -8,18 +8,39 @@ import {Tabs, Tab} from 'material-ui/Tabs';
 
 import MatchSummary from './match_summary';
 
-class MatchesInfo extends Component {
-  componentDidMount() {
-    const { fetchMatches, params } = this.props;
-    fetchMatches(params, () => {
-      
-    });
+class MatchesOverall extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: '',
+    };
   }
 
-  render() {    
-    const gameModes = _.map(['전체', '랭크', '일반(5 vs 5)', '일반(3 vs 3)', '총력전', '배틀로얄'], mode => {
+  componentDidMount() {
+    const { fetchMatches, params } = this.props;
+    fetchMatches(params);
+  }
+
+  handleTapChange(value) {
+    this.setState({
+      value: value,
+    });
+
+    
+  }
+
+  render() {
+    const gameModes = [
+      { value: '', title: '전체' },
+      { value: 'ranked', title: '랭크' },
+      { value: 'casual', title: '일반전' },
+      { value: 'blitz_pvp_ranked', title: '총력전' },
+      { value: 'casual_aral', title: '배틀로얄' }
+    ];
+
+    const tabs = _.map(gameModes, mode => {
       return (
-        <Tab label={mode}  key={mode} >
+        <Tab label={mode.title} key={mode.value} value={mode.value} >
           <div>
             <MatchSummary />
           </div>
@@ -30,8 +51,11 @@ class MatchesInfo extends Component {
     return (
       <div>
         <Card>
-          <Tabs> 
-            {gameModes}
+          <Tabs
+            value={this.state.value}
+            onChange={this.handleChange}
+            > 
+            {tabs}
           </Tabs>
         </Card>
         <br />
@@ -54,4 +78,8 @@ class MatchesInfo extends Component {
   }
 }
 
-export default connect(null, {fetchMatches})(MatchesInfo);
+function mapStateToProps() {
+  //return 
+}
+
+export default connect(null, {fetchMatches})(MatchesOverall);

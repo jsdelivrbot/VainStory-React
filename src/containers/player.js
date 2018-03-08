@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import Header from '../components/common/header';
 import BasicInfo from '../components/player/basic_info';
-import MatchesInfo from '../components/player/matches_info';
+import MatchesOverall from '../components/player/matches_overall';
 
 class Player extends Component {
   render() {
@@ -30,7 +30,7 @@ class Player extends Component {
               <BasicInfo params={this.props.match.params}/>
             </div>
             <div className="col-xs-9">
-              <MatchesInfo params={this.props.match.params}/>
+              <MatchesOverall params={this.props.match.params}/>
             </div>
           </div>
         </div>

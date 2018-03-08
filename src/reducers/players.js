@@ -11,7 +11,6 @@ export default function(state = {}, action) {
       } else {
         return state;
       }
-      
     case FETCH_MATCHES:
       console.log(action.payload);
       return state;

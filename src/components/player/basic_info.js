@@ -68,6 +68,16 @@ class BasicInfo extends Component {
     return result;
   }
 
+  getKarma(level) {
+    switch(level) {
+      case -2: return '아주 나쁨';
+      case -1: return '나쁨';
+      case 0: return '보통';
+      case 1: return '좋음';
+      case 2: return '아주 좋음';
+    }
+  }
+
   render() {
     const { params, userInfo } = this.props;
     console.log(userInfo);
@@ -75,6 +85,7 @@ class BasicInfo extends Component {
     if (userInfo) {
       const { rankPoints: { blitz, ranked }, level, guildTag, karmaLevel } = userInfo.stats;
       const skillTier = this.getSkillTier(ranked);
+      const karma = this.getKarma(karmaLevel)
 
       return (
         <Card>
@@ -85,8 +96,8 @@ class BasicInfo extends Component {
           <CardTitle title={userInfo.name} subtitle="래더 랭킹: 240 (상위 1.4%)" />
           <List>
               <ListItem primaryText={`${level} 레벨`} leftIcon={<ContentInbox />} disabled={true}/>
-              <ListItem primaryText="PAN 소속" leftIcon={<ActionGrade />} disabled={true}/>
-              <ListItem primaryText="카르마 좋음" leftIcon={<ContentSend />} disabled={true}/>
+              <ListItem primaryText={`${guildTag} 소속`} leftIcon={<ActionGrade />} disabled={true}/>
+              <ListItem primaryText={`카르마 ${karma}`} leftIcon={<ContentSend />} disabled={true}/>
           </List>
           <CardText>최근 업데이트: 35분 전</CardText>
           <CardActions>
