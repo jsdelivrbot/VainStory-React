@@ -20,7 +20,7 @@ class Player extends Component {
         fontWeight: 400,
       },
     };
-   
+
     return (
       <div>
         <Header />

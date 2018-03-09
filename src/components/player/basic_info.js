@@ -80,7 +80,6 @@ class BasicInfo extends Component {
 
   render() {
     const { params, userInfo } = this.props;
-    console.log(userInfo);
 
     if (userInfo) {
       const { rankPoints: { blitz, ranked }, level, guildTag, karmaLevel } = userInfo.stats;
@@ -115,8 +114,13 @@ class BasicInfo extends Component {
   }
 }
 
-function mapStateToProps(attributes, ownProps) {
-  return { userInfo: attributes.player[ownProps.params.userName] };
+function mapStateToProps(state, ownProps) {
+  const player = state.player[ownProps.params.userName];
+
+  if (player) {
+    return { userInfo: player.attributes };
+  }
+  return state;
 }
 
 export default connect(mapStateToProps, { fetchPlayer })(BasicInfo);

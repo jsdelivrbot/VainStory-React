@@ -45,6 +45,8 @@ class MatchSummary extends Component {
       zIndex: '2'
     }
 
+    console.log(this.props);
+
     return (
       <div className="container-fluid">
         <div className="row">

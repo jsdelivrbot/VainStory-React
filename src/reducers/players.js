@@ -5,15 +5,16 @@ export default function(state = {}, action) {
   switch (action.type) {
     case FETCH_PLAYER:
       const data = action.payload.data.data[0];
-
+    
       if (data) {
-        return { ...state, [data.attributes.name]: data.attributes};
+        return { ...state, [data.attributes.name]: { attributes: data.attributes, id: `${data.id}` } };
       } else {
         return state;
       }
     case FETCH_MATCHES:
-      console.log(action.payload);
-      return state;
+      //console.log(state);  
+      //console.log(action.payload);
+      return { ...state, data: action.payload.data };
     default:
       return state;
   }
