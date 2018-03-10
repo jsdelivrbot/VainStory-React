@@ -45,7 +45,8 @@ class MatchesOverall extends Component {
     ];
 
     const { matches, details, id } = this.props;
-    
+    console.log(this.props);
+
     if (matches && details && id) {
       const playedData = details.filter((value, index) => {
         if (value.type !== 'participant') return false;
