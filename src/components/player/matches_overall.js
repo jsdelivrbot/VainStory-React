@@ -45,7 +45,6 @@ class MatchesOverall extends Component {
     ];
 
     const { matches, details, id } = this.props;
-    console.log(this.props);
 
     if (matches && details && id) {
       const playedData = details.filter((value, index) => {
@@ -53,11 +52,15 @@ class MatchesOverall extends Component {
         return value.relationships.player.data.id === id;
       });
 
+      const playedTime = matches.reduce((prev, cur) => {
+        return prev + cur.attributes.duration;
+      }, 0);
+
       const tabs = _.map(gameModes, mode => {
         return (
           <Tab label={mode.title} key={mode.value} value={mode.value}>
             <div>
-              <MatchSummary playedData={playedData} />
+              <MatchSummary playedData={playedData} playedTime={playedTime} />
             </div>
           </Tab>
         );
