@@ -5,64 +5,78 @@ class MatchInfo extends Component {
   render() {
     return (
       <Card>
-
-        <div className="row">
-            <div className="col-xs-1">
-              <BasicInfo />
+        <CardHeader
+          title={
+            <div>
+              <span>솔로랭크</span><span> 두시간 전</span>
             </div>
-            <div className="col-xs-9">
-              <Card>
-                <Tabs>
-                  <Tab label="전체" >
-                    <div>
-
-                    </div>
-                  </Tab>
-                  <Tab label="랭크" >
-                    <div>
-
-                    </div>
-                  </Tab>
-                  <Tab label="5vs5 일반">
-                    <div>
-
-                    </div>
-                  </Tab>
-                  <Tab label="3vs3 일반">
-                    <div>
-
-                    </div>
-                  </Tab>
-                  <Tab label="총력전">
-                    <div>
-
-                    </div>
-                  </Tab>
-                  <Tab label="배틀로얄">
-                    <div>
-
-                    </div>
-                  </Tab>
-                </Tabs>
-              </Card>
+          }
+          subtitle="패배 (12분 34초)"
+          actAsExpander={true}
+          showExpandableButton={true}
+        />
+        <div className="container">
+          <div className="row">
+            <div className="col-xs-8">
+              <div className="col-xs-3">
+                <CardMedia>
+                  <img src="../../../res/images/hero/alpha.png" alt="" style={style.media}/>
+                </CardMedia>
+                
+              </div>
+              <div className="col-xs-3">
+                <h4 style={style.centerText}>3 / 6 / 1</h4>
+                <p style={style.centerText}>
+                  2.33:1 평점
+                </p>
+              </div>
+              <div className="col-xs-3">
+                <p style={style.centerText}>
+                  레벨 12
+                </p>
+                <p style={style.centerText}>
+                  131 CS
+                </p>
+                <p style={style.centerText}>
+                  킬 관여 56%
+                </p>
+              </div>
+              <div className="col-xs-3">
+                <div className="col-xs-4">
+                  <Avatar src="../../../res/images/hero/alpha.png" />
+                  <Avatar src="../../../res/images/hero/alpha.png" />
+                </div>
+                <div className="col-xs-4">
+                  <Avatar src="../../../res/images/hero/alpha.png" />
+                  <Avatar src="../../../res/images/hero/alpha.png" />
+                </div>
+                <div className="col-xs-4">
+                  <Avatar src="../../../res/images/hero/alpha.png" />
+                  <Avatar src="../../../res/images/hero/alpha.png" />
+                </div>
+              </div>
+            </div>
+            <div className="col-xs-4">
+              <div className="col-xs-6">
+                <p><img style={{height: '20px', width: '20px'}} src="../../../res/images/hero/alpha.png" alt=""/> park hyun</p>
+                <p><img style={{height: '20px', width: '20px'}} src="../../../res/images/hero/alpha.png" alt=""/> park  soo</p>
+                <p><img style={{height: '20px', width: '20px'}} src="../../../res/images/hero/alpha.png" alt=""/> park hyun</p>
+              </div>
+              <div className="col-xs-6">
+                <p><img style={{height: '20px', width: '20px'}} src="../../../res/images/hero/alpha.png" alt=""/> park hyun</p>
+                <p><img style={{height: '20px', width: '20px'}} src="../../../res/images/hero/alpha.png" alt=""/> park hyun</p>
+                <p><img style={{height: '20px', width: '20px'}} src="../../../res/images/hero/alpha.png" alt=""/> park hyun</p>
+              </div>
             </div>
           </div>
-
-
-        <CardMedia
-          overlay={<CardTitle title="Vainglorious Gold" subtitle="랭크 점수: 2948" />}>
-          <img src="../../res/images/tier/30.png" alt="" />
-        </CardMedia>
-        <CardTitle title="codeDestroyer" subtitle="래더 랭킹: 240 (상위 1.4%)" />
-        <List>
-            <ListItem primaryText="30 레벨" leftIcon={<ContentInbox />} disabled={true}/>
-            <ListItem primaryText="PAN 소속" leftIcon={<ActionGrade />} disabled={true}/>
-            <ListItem primaryText="카르마 좋음" leftIcon={<ContentSend />} disabled={true}/>
-        </List>
-        <CardText>최근 업데이트: 35분 전</CardText>
-        <CardActions>
-          <RaisedButton label="전적 갱신" primary={true}  fullWidth={true} />
-        </CardActions>
+        </div>
+        
+        <CardText expandable={true}>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
+          Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
+          Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
+        </CardText>
       </Card>
     );
   }
