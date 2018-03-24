@@ -10,6 +10,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 import Avatar from 'material-ui/Avatar';
 
 import MatchSummary from './match_summary';
+import MatchInfo from './match_info';
 
 const unitOffset = 20;
 
@@ -39,7 +40,8 @@ class MatchesOverall extends Component {
   render() {
     const gameModes = [
       { value: '', title: '전체' },
-      { value: 'ranked', title: '랭크' },
+      { value: 'ranked', title: '3vs3 랭크' },
+      { value: '5v5_pvp_ranked', title: '5vs5 랭크' },
       { value: 'casual', title: '일반전' },
       { value: 'blitz_pvp_ranked', title: '총력전' },
       { value: 'casual_aral', title: '배틀로얄' }
@@ -48,11 +50,23 @@ class MatchesOverall extends Component {
     const { matches, details, id } = this.props;
 
     if (matches && details && id) {
-      const playedData = details.filter((value, index) => {
-        if (value.type !== 'participant') return false;
-        return value.relationships.player.data.id === id;
-      });
+      const playedData = details.reduce((prev, cur, index) => {
+        if (cur.type === 'participant') {
+          if (cur.relationships.player.data.id === id) {
+            const { attributes: { createdAt, duration, gameMode } } = matches[prev.length];
+            prev.push({
+              ...cur,
+              createdAt: createdAt,
+              duration: duration,
+              gameMode: gameMode
+            });
+          }
+        }
+        return prev;
+      }, new Array());
 
+      console.log(details);
+      
       const playedTime = matches.reduce((prev, cur) => {
         return prev + cur.attributes.duration;
       }, 0);
@@ -66,16 +80,15 @@ class MatchesOverall extends Component {
           </Tab>
         );
       });
-  
-      const style = {
-        media: {
-          borderRadius: '50%',
-          padding: '12px',
-        },
-        centerText: {
-          textAlign: 'center'
-        }
-      }
+
+      const matchInfoList = playedData.map((data) => {
+        return (
+          <div key={data.createdAt}>
+            <MatchInfo playerData={data}/>
+            <br />
+          </div>
+        )
+      });
 
       return (
         <div>
@@ -87,155 +100,8 @@ class MatchesOverall extends Component {
             </Tabs>
           </Card>
           <br />
-          <Card>
-            <CardHeader
-              title={
-                <div>
-                  <span>솔로랭크</span><span> 두시간 전</span><span> | 패배 </span><span>(12분 44초)</span>
-                </div>
-              }
-              
-              actAsExpander={true}
-              showExpandableButton={true}
-            />
-            <div className="container">
-              <div className="row">
-                <div className="col-xs-8">
-                  <div className="col-xs-3">
-                    <CardMedia>
-                      <img src="../../../res/images/hero/alpha.png" alt="" style={style.media}/>
-                    </CardMedia>
-                    <p style={style.centerText}>알파</p>
-                  </div>
-                  <div className="col-xs-3">
-                    <h4 style={style.centerText}>3 / 6 / 1</h4>
-                    <p style={style.centerText}>
-                      2.33:1 평점
-                    </p>
-                  </div>
-                  <div className="col-xs-3">
-                    <p style={style.centerText}>
-                      레벨 12
-                    </p>
-                    <p style={style.centerText}>
-                      131 CS
-                    </p>
-                    <p style={style.centerText}>
-                      킬 관여 56%
-                    </p>
-                  </div>
-                  <div className="col-xs-3">
-                    <div className="col-xs-4">
-                      <Avatar src="../../../res/images/hero/alpha.png" />
-                      <Avatar src="../../../res/images/hero/alpha.png" />
-                    </div>
-                    <div className="col-xs-4">
-                      <Avatar src="../../../res/images/hero/alpha.png" />
-                      <Avatar src="../../../res/images/hero/alpha.png" />
-                    </div>
-                    <div className="col-xs-4">
-                      <Avatar src="../../../res/images/hero/alpha.png" />
-                      <Avatar src="../../../res/images/hero/alpha.png" />
-                    </div>
-                  </div>
-                </div>
-                <div className="col-xs-4">
-                  <div className="col-xs-6">
-                    <p><img style={{height: '20px', width: '20px'}} src="../../../res/images/hero/alpha.png" alt=""/> park hyun</p>
-                    <p><img style={{height: '20px', width: '20px'}} src="../../../res/images/hero/alpha.png" alt=""/> park  soo</p>
-                    <p><img style={{height: '20px', width: '20px'}} src="../../../res/images/hero/alpha.png" alt=""/> park hyun</p>
-                  </div>
-                  <div className="col-xs-6">
-                    <p><img style={{height: '20px', width: '20px'}} src="../../../res/images/hero/alpha.png" alt=""/> park hyun</p>
-                    <p><img style={{height: '20px', width: '20px'}} src="../../../res/images/hero/alpha.png" alt=""/> park hyun</p>
-                    <p><img style={{height: '20px', width: '20px'}} src="../../../res/images/hero/alpha.png" alt=""/> park hyun</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <CardText expandable={true}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-              Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-              Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
-            </CardText>
-          </Card>
-          <Card>
-            <CardHeader
-              title={
-                <div>
-                  <span>솔로랭크</span><span> 두시간 전</span>
-                </div>
-              }
-              subtitle="패배 (12분 34초)"
-              actAsExpander={true}
-              showExpandableButton={true}
-            />
-            <div className="container">
-              <div className="row">
-                <div className="col-xs-8">
-                  <div className="col-xs-3">
-                    <CardMedia>
-                      <img src="../../../res/images/hero/alpha.png" alt="" style={style.media}/>
-                    </CardMedia>
-                    <p style={style.centerText}>알파</p>
-                  </div>
-                  <div className="col-xs-3">
-                    <h4 style={style.centerText}>3 / 6 / 1</h4>
-                    <p style={style.centerText}>
-                      2.33:1 평점
-                    </p>
-                  </div>
-                  <div className="col-xs-3">
-                    <p style={style.centerText}>
-                      레벨 12
-                    </p>
-                    <p style={style.centerText}>
-                      131 CS
-                    </p>
-                    <p style={style.centerText}>
-                      킬 관여 56%
-                    </p>
-                  </div>
-                  <div className="col-xs-3">
-                    <div className="col-xs-4">
-                      <Avatar src="../../../res/images/hero/alpha.png" />
-                      <Avatar src="../../../res/images/hero/alpha.png" />
-                    </div>
-                    <div className="col-xs-4">
-                      <Avatar src="../../../res/images/hero/alpha.png" />
-                      <Avatar src="../../../res/images/hero/alpha.png" />
-                    </div>
-                    <div className="col-xs-4">
-                      <Avatar src="../../../res/images/hero/alpha.png" />
-                      <Avatar src="../../../res/images/hero/alpha.png" />
-                    </div>
-                  </div>
-                </div>
-                <div className="col-xs-4">
-                  <div className="col-xs-6">
-                    <p><img style={{height: '20px', width: '20px'}} src="../../../res/images/hero/alpha.png" alt=""/> park hyun</p>
-                    <p><img style={{height: '20px', width: '20px'}} src="../../../res/images/hero/alpha.png" alt=""/> park  soo</p>
-                    <p><img style={{height: '20px', width: '20px'}} src="../../../res/images/hero/alpha.png" alt=""/> park hyun</p>
-                  </div>
-                  <div className="col-xs-6">
-                    <p><img style={{height: '20px', width: '20px'}} src="../../../res/images/hero/alpha.png" alt=""/> park hyun</p>
-                    <p><img style={{height: '20px', width: '20px'}} src="../../../res/images/hero/alpha.png" alt=""/> park hyun</p>
-                    <p><img style={{height: '20px', width: '20px'}} src="../../../res/images/hero/alpha.png" alt=""/> park hyun</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <CardText expandable={true}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-              Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-              Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
-            </CardText>
-          </Card>
-          <br />
+          {matchInfoList}
+        
           <Card>
             <CardActions>
               <FlatButton label="더 보기" fullWidth={true} onClick={this.onMoreButtonClicked.bind(this)} />

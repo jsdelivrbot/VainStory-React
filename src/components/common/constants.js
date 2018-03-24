@@ -29,10 +29,11 @@ export const herosInfo = {
     '*Ringo*':          { name: '링고' , image: 'ringo.png' },
     '*Rona*':           { name: '로나' , image: 'rona.png' },
     '*Samuel*':         { name: '사무엘' , image: 'samuel.png' },
-    '*Saw*':            { name: '쏘우' , image: 'saw.png' },
+    '*SAW*':            { name: '쏘우' , image: 'saw.png' },
     '*Skaarf*':         { name: '스카프' , image: 'skaarf.png' },
     '*Skye*':           { name: '스카이' , image: 'skye.png' },
     '*Taka*':           { name: '타카' , image: 'taka.png' },
+    '*Tony*':           { name: '토니' , image: 'tony.png' },
     '*Varya*':          { name: '바이라' , image: 'varya.png' },
     '*Vox*':            { name: '복스' , image: 'vox.png' },
 };
