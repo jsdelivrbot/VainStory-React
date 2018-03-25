@@ -50,6 +50,20 @@ class MatchesOverall extends Component {
     const { matches, details, id } = this.props;
 
     if (matches && details && id) {
+      const rosters = _.mapKeys(details.filter((value, index) => {
+        return value.type === 'roster';
+      }), (value, key) => {
+        return value.id;
+      });
+      
+      const mark = matches.map((value, index) => {
+        return value.relationships.rosters.data.map((data) => {
+          return rosters[data.id];
+        });
+      });
+
+      console.log(mark);
+
       const playedData = details.reduce((prev, cur, index) => {
         if (cur.type === 'participant') {
           if (cur.relationships.player.data.id === id) {
@@ -64,8 +78,6 @@ class MatchesOverall extends Component {
         }
         return prev;
       }, new Array());
-
-      console.log(details);
       
       const playedTime = matches.reduce((prev, cur) => {
         return prev + cur.attributes.duration;

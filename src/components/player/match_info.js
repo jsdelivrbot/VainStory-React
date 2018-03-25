@@ -7,7 +7,8 @@ const imageHerosPath = '../../../res/images/hero';
 
 const gameModeDict = {
   'ranked': '3vs3 랭크',
-  '5v5_pvp_ranked': '5vs5 랭크', 
+  '5v5_pvp_ranked': '5vs5 랭크',
+  '5v5_pvp_casual': '일반전',
   'casual': '일반전',
   'blitz_pvp_ranked': '총력전',
   'private_party_blitz_match': '총력전',
@@ -31,9 +32,7 @@ class MatchInfo extends Component {
 
   render() {
     const { playerData: { createdAt, duration, gameMode, attributes: { actor, stats } } } = this.props;
-    const { winner } = stats;
-    
-    console.log(this.props);
+    const { winner, kills, assists, deaths, farm } = stats;
 
     return (
       <Card>
@@ -59,9 +58,9 @@ class MatchInfo extends Component {
                 <p style={style.centerText}>{herosInfo[actor].name}</p>
               </div>
               <div className="col-xs-3">
-                <h4 style={style.centerText}>3 / 6 / 1</h4>
+                <h4 style={style.centerText}>{`${kills} / ${assists} / ${deaths}`}</h4>
                 <p style={style.centerText}>
-                  2.33:1 평점
+                  {((kills + assists) / deaths).toFixed(2)} : 1 평점
                 </p>
               </div>
               <div className="col-xs-3">
@@ -69,7 +68,7 @@ class MatchInfo extends Component {
                   레벨 12
                 </p>
                 <p style={style.centerText}>
-                  131 CS
+                  {farm} CS
                 </p>
                 <p style={style.centerText}>
                   킬 관여 56%
