@@ -40,14 +40,14 @@ export function fetchPlayer(values) {
 }
 
 export function fetchMatches(values) {
-  const { region, userName, offset } = values;
+  const { mode, userName, offset } = values;
 
   const request = axios.create({
     baseURL: ROOT_URL,
     timeout: 10000,
     headers: { 'Authorization': API_KEY, 'Accept': 'application/vnd.api+json'}
   })
-  .get(`/${values.region}/matches?sort=-createdAt&page[limit]=20&page[offset]=${offset}&filter[playerNames]=${values.userName}`);
+  .get(`/${values.region}/matches?sort=-createdAt&page[limit]=20&page[offset]=${offset}&filter[playerNames]=${values.userName}&filter[gameMode]=${mode}`);
 
   return {
     type: FETCH_MATCHES,

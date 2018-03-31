@@ -1,5 +1,6 @@
 
 export const herosInfo = {
+    '*Adagio*':          { name: '아다지오' , image: 'adagio.png' },
     '*Alpha*':          { name: '알파' , image: 'alpha.png' },
     '*Ardan*':          { name: '아단' , image: 'ardan.png' },
     '*Baptiste*':       { name: '바티스트' , image: 'baptiste.png' },
@@ -15,6 +16,7 @@ export const herosInfo = {
     '*Grumpjaw*':       { name: '사슬니' , image: 'grumpjaw.png' },
     '*Gwen*':           { name: '그웬' , image: 'gwen.png' },
     '*Idris*':          { name: '이드리스' , image: 'idris.png' },
+    '*Joule*':          { name: '쥴' , image: 'joule.png' },
     '*Kestrel*':        { name: '케스트럴' , image: 'kestrel.png' },
     '*Koshka*':         { name: '코쉬카' , image: 'koshka.png' },
     '*Krul*':           { name: '크럴' , image: 'krul.png' },

@@ -18,19 +18,23 @@ class MatchesOverall extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: '',
+      mode: '',
       offset: 0
     };
   }
 
   componentDidMount() {
     const { fetchMatches, params } = this.props;
-    fetchMatches({ ...params, offset: this.state.offset });
+    fetchMatches({ ...params, mode: '', offset: this.state.offset });
     this.setState({ ...this.state, offset: this.state.offset + unitOffset});
   }
 
-  handleTapChange(value) {
-    this.setState({ ...this.state, value: value });
+  handleTabChange(mode) {
+    const { fetchMatches, params } = this.props;
+    //console.log(value);
+    console.log(this.props);
+    fetchMatches({ ...params, mode: mode, offset: this.state.offset });
+    this.setState({ ...this.state, mode: mode });
   }
 
   onMoreButtonClicked() {
@@ -107,7 +111,7 @@ class MatchesOverall extends Component {
           <Card>
             <Tabs
               value={this.state.value}
-              onChange={this.handleChange}> 
+              onChange={this.handleTabChange.bind(this)}> 
               {tabs}
             </Tabs>
           </Card>
