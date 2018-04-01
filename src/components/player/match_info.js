@@ -34,6 +34,8 @@ class MatchInfo extends Component {
     const { playerData: { createdAt, duration, gameMode, attributes: { actor, stats } } } = this.props;
     const { winner, kills, assists, deaths, farm } = stats;
 
+    //console.log(this.props);
+
     return (
       <Card>
         <CardHeader

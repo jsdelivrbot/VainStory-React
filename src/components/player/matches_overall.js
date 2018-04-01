@@ -12,7 +12,7 @@ import Avatar from 'material-ui/Avatar';
 import MatchSummary from './match_summary';
 import MatchInfo from './match_info';
 
-const unitOffset = 20;
+const unitOffset = 0;
 
 class MatchesOverall extends Component {
   constructor(props) {
@@ -31,8 +31,6 @@ class MatchesOverall extends Component {
 
   handleTabChange(mode) {
     const { fetchMatches, params } = this.props;
-    //console.log(value);
-    console.log(this.props);
     fetchMatches({ ...params, mode: mode, offset: this.state.offset });
     this.setState({ ...this.state, mode: mode });
   }
@@ -44,9 +42,10 @@ class MatchesOverall extends Component {
   render() {
     const gameModes = [
       { value: '', title: '전체' },
-      { value: 'ranked', title: '3vs3 랭크' },
-      { value: '5v5_pvp_ranked', title: '5vs5 랭크' },
-      { value: 'casual', title: '일반전' },
+      { value: 'ranked', title: '3 v 3 랭크' },
+      { value: '5v5_pvp_ranked', title: '5 v 5 랭크' },
+      { value: 'casual', title: '3 v 3 일반전' },
+      { value: '5v5_pvp_casual', title: '5 v 5 일반전' },
       { value: 'blitz_pvp_ranked', title: '총력전' },
       { value: 'casual_aral', title: '배틀로얄' }
     ];
@@ -65,8 +64,8 @@ class MatchesOverall extends Component {
           return rosters[data.id];
         });
       });
-
-      console.log(mark);
+      console.log(details);
+      console.log(matches);
 
       const playedData = details.reduce((prev, cur, index) => {
         if (cur.type === 'participant') {
