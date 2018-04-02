@@ -53,19 +53,63 @@ class MatchesOverall extends Component {
     const { matches, details, id } = this.props;
 
     if (matches && details && id) {
+      console.log(id);
+
+      const assets = _.mapKeys(details.filter((value, index) => {
+        return value.type === 'asset';
+      }), (value, key) => {
+        return value.id;
+      });
+
+      const participants = _.mapKeys(details.filter((value, index) => {
+        return value.type === 'participant';
+      }), (value, key) => {
+        return value.id;
+      });
+
+      const players = _.mapKeys(details.filter((value, index) => {
+        return value.type === 'player';
+      }), (value, key) => {
+        return value.id;
+      });
+
       const rosters = _.mapKeys(details.filter((value, index) => {
         return value.type === 'roster';
       }), (value, key) => {
         return value.id;
       });
+
+      // const test = matches.map((value, index) => {
+      //   const matchRosters = {
+      //     red: {},
+      //     blue: {}
+      //   };
+
+      //   value.relationships.rosters.forEach((element) => {
+      //     if (element.attributes.stats.side === 'right/red') {
+      //       matchRosters.red = rosters[element.data.id].attributes.stats;
+      //     } else {
+      //       matchRosters.blue = rosters[element.data.id].attributes.stats;
+      //     }
+      //   });
+
+      //   return {
+      //     asset: assets[value.relationships.assets.data[0].id].attributes,
+      //     roster: value.relationships.rosters.data.map((element) => {
+      //       return rosters[element.id];
+      //     }),
+        
+      //   }
+      // });
       
       const mark = matches.map((value, index) => {
         return value.relationships.rosters.data.map((data) => {
           return rosters[data.id];
         });
       });
-      console.log(details);
+      console.log(rosters);
       console.log(matches);
+      console.log(details);
 
       const playedData = details.reduce((prev, cur, index) => {
         if (cur.type === 'participant') {
