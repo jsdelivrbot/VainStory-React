@@ -53,7 +53,6 @@ class MatchesOverall extends Component {
     const { matches, details, id } = this.props;
 
     if (matches && details && id) {
-      console.log(id);
 
       const assets = _.mapKeys(details.filter((value, index) => {
         return value.type === 'asset';
@@ -79,37 +78,52 @@ class MatchesOverall extends Component {
         return value.id;
       });
 
-      // const test = matches.map((value, index) => {
-      //   const matchRosters = {
-      //     red: {},
-      //     blue: {}
-      //   };
-
-      //   value.relationships.rosters.forEach((element) => {
-      //     if (element.attributes.stats.side === 'right/red') {
-      //       matchRosters.red = rosters[element.data.id].attributes.stats;
-      //     } else {
-      //       matchRosters.blue = rosters[element.data.id].attributes.stats;
-      //     }
-      //   });
-
-      //   return {
-      //     asset: assets[value.relationships.assets.data[0].id].attributes,
-      //     roster: value.relationships.rosters.data.map((element) => {
-      //       return rosters[element.id];
-      //     }),
+      const test = matches.map((value, index) => {
+        const matchRosters = {
+          red: {
+            stats: {},
+            participants: []
+          },
+          blue: {
+            stats: {},
+            participants: []
+          }
+        };
         
-      //   }
-      // });
+        value.relationships.rosters.data.forEach((element) => {
+          const rosterStats = rosters[element.id].attributes.stats;
+          const rosterPlayers = rosters[element.id].relationships.participants.data;
+          const rosterParticipants = rosterPlayers.map((participant) => {
+            const character = participants[participant.id].attributes;
+            const playerId = participants[participant.id].relationships.player.data.id;
+            return {
+                character: character,
+                player: players[playerId]
+            };
+          });
+
+          if (rosterStats.side === 'right/red') {
+            matchRosters.red.stats = rosterStats;
+            matchRosters.red.participants = rosterParticipants;
+          } else {
+            matchRosters.blue.stats = rosterStats;
+            matchRosters.blue.participants = rosterParticipants;
+          }
+        });
+
+        return {
+          asset: assets[value.relationships.assets.data[0].id].attributes,
+          rosters: matchRosters
+        }
+      });
+      console.log(test);
+      
       
       const mark = matches.map((value, index) => {
         return value.relationships.rosters.data.map((data) => {
           return rosters[data.id];
         });
       });
-      console.log(rosters);
-      console.log(matches);
-      console.log(details);
 
       const playedData = details.reduce((prev, cur, index) => {
         if (cur.type === 'participant') {
