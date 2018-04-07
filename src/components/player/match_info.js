@@ -31,6 +31,8 @@ class MatchInfo extends Component {
   }
 
   render() {
+    console.log(this.props);
+    //const { attributes: { createdAt, duration, gameMode }, rosters: { red, blue } } = this.props.test;
     const { playerData: { createdAt, duration, gameMode, attributes: { actor, stats } } } = this.props;
     const { winner, kills, assists, deaths, farm } = stats;
 

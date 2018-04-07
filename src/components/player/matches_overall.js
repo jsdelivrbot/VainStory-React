@@ -79,6 +79,8 @@ class MatchesOverall extends Component {
       });
 
       const test = matches.map((value, index) => {
+        const { attributes } = value;
+
         const matchRosters = {
           red: {
             stats: {},
@@ -112,12 +114,12 @@ class MatchesOverall extends Component {
         });
 
         return {
+          attributes: attributes,
           asset: assets[value.relationships.assets.data[0].id].attributes,
-          rosters: matchRosters
+          rosters: matchRosters,
+          id: id
         }
       });
-      console.log(test);
-      
       
       const mark = matches.map((value, index) => {
         return value.relationships.rosters.data.map((data) => {
@@ -157,7 +159,7 @@ class MatchesOverall extends Component {
       const matchInfoList = playedData.map((data) => {
         return (
           <div key={data.createdAt}>
-            <MatchInfo playerData={data}/>
+            <MatchInfo playerData={data} />
             <br />
           </div>
         )
