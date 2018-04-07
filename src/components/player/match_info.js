@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import Avatar from 'material-ui/Avatar';
@@ -30,13 +31,41 @@ class MatchInfo extends Component {
     super(props);
   }
 
+  loadPlayerList(participants) {
+    return participants.map((participant) => {
+      const { actor } = participant.character;
+      const { name } = participant.player.attributes;
+
+      return (
+        <p>
+          <img style={{height: '20px', width: '20px'}} src={`${imageHerosPath}/${herosInfo[actor].image}`} alt=""/> {name}
+        </p>
+      )
+    });
+  }
+
+  getSearchedPlayer(redMembers, blueMembers) {
+    const redPlayer = _.find(redMembers, (participant) => { return participant.player.id === id; });
+    const bluePlayer = _.find(blueMembers, (participant) => { return participant.player.id === id; });
+
+    if (redPlayer) {
+      return { isRed: true, player: redPlayer };
+    } else if (bluePlayer) {
+      return { isRed: false, player: bluePlayer };
+    } else {
+      return {};
+    }
+  }
+
   render() {
     console.log(this.props);
-    //const { attributes: { createdAt, duration, gameMode }, rosters: { red, blue } } = this.props.test;
-    const { playerData: { createdAt, duration, gameMode, attributes: { actor, stats } } } = this.props;
-    const { winner, kills, assists, deaths, farm } = stats;
+    const { attributes: { createdAt, duration, gameMode }, rosters: { red, blue }, id } = this.props.matchData;
 
-    //console.log(this.props);
+    const redMembers = this.loadPlayerList(red.participants);
+    const blueMembers = this.loadPlayerList(red.participants);
+    const searchedPlayer = this.getSearchedPlayer;
+
+    const { character: { actor, stats: { winner, kills, assists, deaths, farm } } } = searchedPlayer;
 
     return (
       <Card>
@@ -95,14 +124,10 @@ class MatchInfo extends Component {
             </div>
             <div className="col-xs-4">
               <div className="col-xs-6">
-                <p><img style={{height: '20px', width: '20px'}} src="../../../res/images/hero/alpha.png" alt=""/> park hyun</p>
-                <p><img style={{height: '20px', width: '20px'}} src="../../../res/images/hero/alpha.png" alt=""/> park  soo</p>
-                <p><img style={{height: '20px', width: '20px'}} src="../../../res/images/hero/alpha.png" alt=""/> park hyun</p>
+                {redMembers}
               </div>
               <div className="col-xs-6">
-                <p><img style={{height: '20px', width: '20px'}} src="../../../res/images/hero/alpha.png" alt=""/> park hyun</p>
-                <p><img style={{height: '20px', width: '20px'}} src="../../../res/images/hero/alpha.png" alt=""/> park hyun</p>
-                <p><img style={{height: '20px', width: '20px'}} src="../../../res/images/hero/alpha.png" alt=""/> park hyun</p>
+                {blueMembers}
               </div>
             </div>
           </div>

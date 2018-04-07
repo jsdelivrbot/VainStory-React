@@ -78,7 +78,7 @@ class MatchesOverall extends Component {
         return value.id;
       });
 
-      const test = matches.map((value, index) => {
+      const matchesData = matches.map((value, index) => {
         const { attributes } = value;
 
         const matchRosters = {
@@ -126,21 +126,6 @@ class MatchesOverall extends Component {
           return rosters[data.id];
         });
       });
-
-      const playedData = details.reduce((prev, cur, index) => {
-        if (cur.type === 'participant') {
-          if (cur.relationships.player.data.id === id) {
-            const { attributes: { createdAt, duration, gameMode } } = matches[prev.length];
-            prev.push({
-              ...cur,
-              createdAt: createdAt,
-              duration: duration,
-              gameMode: gameMode
-            });
-          }
-        }
-        return prev;
-      }, new Array());
       
       const playedTime = matches.reduce((prev, cur) => {
         return prev + cur.attributes.duration;
@@ -156,11 +141,11 @@ class MatchesOverall extends Component {
         );
       });
 
-      const matchInfoList = playedData.map((data) => {
+      const matchInfoList = matchesData.map((data) => {
         return (
           <div key={data.createdAt}>
-            <MatchInfo playerData={data} />
-            <br />
+            <MatchInfo matchData={data} />
+            <p />
           </div>
         )
       });
