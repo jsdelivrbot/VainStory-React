@@ -45,8 +45,8 @@ class MatchInfo extends Component {
   }
 
   getSearchedPlayer(redMembers, blueMembers) {
-    const redPlayer = _.find(redMembers, (participant) => { return participant.player.id === id; });
-    const bluePlayer = _.find(blueMembers, (participant) => { return participant.player.id === id; });
+    const redPlayer = _.find(redMembers, (participant) => { return participant.player.id === this.props.matchData.id; });
+    const bluePlayer = _.find(blueMembers, (participant) => { return participant.player.id === this.props.matchData.id; });
 
     if (redPlayer) {
       return { isRed: true, player: redPlayer };
@@ -58,14 +58,13 @@ class MatchInfo extends Component {
   }
 
   render() {
-    console.log(this.props);
     const { attributes: { createdAt, duration, gameMode }, rosters: { red, blue }, id } = this.props.matchData;
 
-    const redMembers = this.loadPlayerList(red.participants);
-    const blueMembers = this.loadPlayerList(red.participants);
-    const searchedPlayer = this.getSearchedPlayer;
+    const redMemberList = this.loadPlayerList(red.participants);
+    const blueMemberList = this.loadPlayerList(blue.participants);
+    const searchedPlayer = this.getSearchedPlayer(red.participants, blue.participants);
 
-    const { character: { actor, stats: { winner, kills, assists, deaths, farm } } } = searchedPlayer;
+    const { character: { actor, stats: { winner, kills, assists, deaths, farm } } } = searchedPlayer.player;
 
     return (
       <Card>
@@ -124,10 +123,10 @@ class MatchInfo extends Component {
             </div>
             <div className="col-xs-4">
               <div className="col-xs-6">
-                {redMembers}
+                {redMemberList}
               </div>
               <div className="col-xs-6">
-                {blueMembers}
+                {blueMemberList}
               </div>
             </div>
           </div>

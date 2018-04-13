@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchMatches } from '../../actions';
 
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import {Tabs, Tab} from 'material-ui/Tabs';
+import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+import { Tabs, Tab } from 'material-ui/Tabs';
 import FlatButton from 'material-ui/FlatButton';
 import CircularProgress from 'material-ui/CircularProgress';
 import Avatar from 'material-ui/Avatar';
@@ -13,6 +13,16 @@ import MatchSummary from './match_summary';
 import MatchInfo from './match_info';
 
 const unitOffset = 0;
+
+const gameModes = [
+  { value: '', title: '전체' },
+  { value: 'ranked', title: '3 v 3 랭크' },
+  { value: '5v5_pvp_ranked', title: '5 v 5 랭크' },
+  { value: 'casual', title: '3 v 3 일반전' },
+  { value: '5v5_pvp_casual', title: '5 v 5 일반전' },
+  { value: 'blitz_pvp_ranked', title: '총력전' },
+  { value: 'casual_aral', title: '배틀로얄' }
+];
 
 class MatchesOverall extends Component {
   constructor(props) {
@@ -40,20 +50,10 @@ class MatchesOverall extends Component {
   }
 
   render() {
-    const gameModes = [
-      { value: '', title: '전체' },
-      { value: 'ranked', title: '3 v 3 랭크' },
-      { value: '5v5_pvp_ranked', title: '5 v 5 랭크' },
-      { value: 'casual', title: '3 v 3 일반전' },
-      { value: '5v5_pvp_casual', title: '5 v 5 일반전' },
-      { value: 'blitz_pvp_ranked', title: '총력전' },
-      { value: 'casual_aral', title: '배틀로얄' }
-    ];
-
     const { matches, details, id } = this.props;
-
+    
     if (matches && details && id) {
-
+      //console.log(details);
       const assets = _.mapKeys(details.filter((value, index) => {
         return value.type === 'asset';
       }), (value, key) => {
@@ -78,7 +78,7 @@ class MatchesOverall extends Component {
         return value.id;
       });
 
-      const matchesData = matches.map((value, index) => {
+      const test = matches.map((value, index) => {
         const { attributes } = value;
 
         const matchRosters = {
@@ -120,12 +120,22 @@ class MatchesOverall extends Component {
           id: id
         }
       });
-      
-      const mark = matches.map((value, index) => {
-        return value.relationships.rosters.data.map((data) => {
-          return rosters[data.id];
-        });
-      });
+
+      const summaryData = details.reduce((prev, cur, index) => {
+        if (cur.type === 'participant') {
+          if (cur.relationships.player.data.id === id) {
+            const { attributes: { createdAt, duration, gameMode } } = matches[prev.length];
+            prev.push({
+              ...cur,
+              createdAt: createdAt,
+              duration: duration,
+              gameMode: gameMode
+            });
+          }
+        }
+        return prev;
+      }, new Array());
+      console.log(summaryData);
       
       const playedTime = matches.reduce((prev, cur) => {
         return prev + cur.attributes.duration;
@@ -133,15 +143,13 @@ class MatchesOverall extends Component {
 
       const tabs = _.map(gameModes, mode => {
         return (
-          <Tab label={mode.title} key={mode.value} value={mode.value}>
-            <div>
-              <MatchSummary playedData={playedData} playedTime={playedTime} />
-            </div>
-          </Tab>
+          <Tab label={mode.title} key={mode.value} value={mode.value} />
         );
       });
 
-      const matchInfoList = matchesData.map((data) => {
+      
+
+      const matchInfoList = test.map((data) => {
         return (
           <div key={data.createdAt}>
             <MatchInfo matchData={data} />
@@ -158,6 +166,7 @@ class MatchesOverall extends Component {
               onChange={this.handleTabChange.bind(this)}> 
               {tabs}
             </Tabs>
+            <MatchSummary summaryData={summaryData} playedTime={playedTime} />
           </Card>
           <br />
           {matchInfoList}

@@ -45,35 +45,6 @@ const style = {
 class MatchSummary extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      playedTime: props.playedTime,
-      playedHeros: {}
-    };
-  }
-
-  componentDidMount() {
-    const { playedData } = this.props;
-
-    this.setState({...playedData.reduce((prev, cur) => {
-      const { stats: { winner, assists, deaths, kills, farm }, actor } = cur.attributes;
-      var playedHero = prev.playedHeros[actor];
-
-      if (!playedHero) {
-        playedHero = { played: 0, wins: 0, kills: 0, assists: 0, deaths: 0, farm: 0 }
-      } 
-
-      return { 
-        playedHeros: { ...prev.playedHeros, [actor]: {
-          played: playedHero.played + 1,
-          wins: playedHero.wins + (winner ? 1 : 0),
-          kills: playedHero.kills + kills,
-          assists: playedHero.assists + assists,
-          deaths: playedHero.deaths + deaths,
-          farm: playedHero.farm + farm
-        }}
-      };
-    }, this.state)});
   }
 
   generateHeroListItem(played) {
@@ -96,8 +67,7 @@ class MatchSummary extends Component {
                 <p>{`${heroKDA.toFixed(2)}`} 평점</p>
               </div>
             }
-            secondaryTextLines={2}
-            />
+            secondaryTextLines={2}/>
         );
       } else {
         return (
@@ -111,9 +81,32 @@ class MatchSummary extends Component {
   }
 
   render() {
-    const { playedTime, playedHeros } = this.state;
+    const { playedTime, summaryData } = this.props;
+    let playedHeros = {};
+
+    summaryData.forEach(data => {
+      const { stats: { winner, assists, deaths, kills, farm }, actor } = data.attributes;
+      var playedHero = playedHeros[actor];
+      
+      if (!playedHero) {
+        playedHero = { played: 0, wins: 0, kills: 0, assists: 0, deaths: 0, farm: 0 }
+      } 
+
+      playedHeros = { 
+        ...playedHeros, 
+        [actor]: {
+          played: playedHero.played + 1,
+          wins: playedHero.wins + (winner ? 1 : 0),
+          kills: playedHero.kills + kills,
+          assists: playedHero.assists + assists,
+          deaths: playedHero.deaths + deaths,
+          farm: playedHero.farm + farm
+        }
+      }
+    });
+
     if (_.isEmpty(playedHeros)) return (<div className="container-fluid"></div>);
-    
+
     const { played, wins, kills, assists, deaths, farm } = _.reduce(playedHeros, (prev, cur) => {
       return {
         played: prev.played + cur.played,
@@ -181,23 +174,19 @@ class MatchSummary extends Component {
             <List>
               <ListItem
                 innerDivStyle={style.listItem}
-                primaryText={`총 플레이 시간: ${(playedTime / 3600).toFixed(1)} 시간`}
-              />
+                primaryText={`총 플레이 시간: ${(playedTime / 3600).toFixed(1)} 시간`}/>
               <ListItem
                 innerDivStyle={style.listItem}
                 primaryText={`평균 CS: ${(farm / played).toFixed(1)}`}
-                secondaryText={`총 ${farm}의 미니언`}
-              />
+                secondaryText={`총 ${farm}의 미니언`}/>
               <ListItem
                 innerDivStyle={style.listItem}
                 primaryText={`킬수 합계: ${kills}`}
-                secondaryText={`분당 ${(kills / (playedTime / 60)).toFixed(3)} 킬`}
-              />
+                secondaryText={`분당 ${(kills / (playedTime / 60)).toFixed(3)} 킬`}/>
               <ListItem
                 innerDivStyle={style.listItem}
                 primaryText={`데스 합계: ${deaths}`}
-                secondaryText={`분당 ${(deaths / (playedTime / 60)).toFixed(3)} 데스`}
-              />
+                secondaryText={`분당 ${(deaths / (playedTime / 60)).toFixed(3)} 데스`}/>
             </List>
           </div>
         </div>
