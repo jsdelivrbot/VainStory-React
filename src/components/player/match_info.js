@@ -5,6 +5,7 @@ import Avatar from 'material-ui/Avatar';
 import { herosInfo } from '../common/constants';
 
 const imageHerosPath = '../../../res/images/hero';
+const imageInventoryPath = '../../../res/images/hero';
 
 const gameModeDict = {
   'ranked': '3vs3 랭크',
@@ -64,7 +65,8 @@ class MatchInfo extends Component {
     const blueMemberList = this.loadPlayerList(blue.participants);
     const searchedPlayer = this.getSearchedPlayer(red.participants, blue.participants);
 
-    const { character: { actor, stats: { winner, kills, assists, deaths, farm } } } = searchedPlayer.player;
+    const { character: { actor, stats: { winner, kills, assists, deaths, farm, items } } } = searchedPlayer.player;
+    console.log(items);
 
     return (
       <Card>
@@ -78,8 +80,7 @@ class MatchInfo extends Component {
             </div>
           }
           actAsExpander={true}
-          showExpandableButton={true}
-        />
+          showExpandableButton={true} />
         <div className="container">
           <div className="row">
             <div className="col-xs-8">
